@@ -8,10 +8,9 @@
 
   const inputtingDescription = ref<string>('')
 
-  const postTweet = () => {
-    const tweet = { id: Math.random(), description:inputtingDescription.value}
+  const postTweet = (description: string) => {
+    const tweet = { id: Math.random(), description}
     tweets.value.push(tweet)
-    inputtingDescription.value = ''
     console.log('post...', tweets.value)
   }
 
@@ -24,11 +23,11 @@
 <template>
   <div class="container">
     <h1>Tweeter</h1>
-    <TweetPostForm />
+    <TweetPostForm @post-tweet="postTweet"/>
     <div class="tweet-container">
       <p v-if="tweets.length <= 0">No tweets have been added</p>
       <ul>
-        <TweetList :tweets="tweets" />
+        <TweetList :tweets="tweets" @delete-tweet="deleteTweet"/>
         <!-- <li v-for="tweet in tweets" :key="tweet.id" class="tweet-list">
           <span>{{ tweet.description }}</span>
           <button class="delete-button" @click="deleteTweet(tweet.id)">delete</button>
